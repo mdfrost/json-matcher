@@ -45,7 +45,7 @@ JsonMatcher<JsonObject> matcher = JsonMatcher.object()
 This matcher illustrates a simple example of the type of thing that often occurs with JSON responses to network requests. In this case, suppose that this object is a response to a "get-available" network API call - perhaps this is a call used by client UI to highlight valid choices for a user to select. The response is a JSON object with a fixed "msg-type" member, but the "available-values" member is an array where the order of elements does not matter.
 * `{ "msg-type": "get-available-response", "available-values": [ 3, 2, 1 ] }` will match
 
-The similarity with construction of JSON structures using `javax.json.Json.createArrayBuilder()` is intentional. However, the builders in this library are more flexible, and can be re-used to create multiple related matchers. In addition, the `add` methods that take an arbitrary object will accept a wider range of datatypes than those in the `javax.json` library (which do not even permit existing `JsonValue` objects).
+The similarity with construction of JSON structures using `javax.json.Json.createArrayBuilder()` is intentional. However, the builders in this library are more flexible, and can be re-used to create multiple related matchers. In addition, the methods that take an arbitrary object or existing collection will accept a wider range of datatypes than those in the `javax.json` library (which do not even permit existing `JsonValue` objects).
 
 ## Requirements
 
