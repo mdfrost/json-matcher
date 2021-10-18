@@ -163,6 +163,10 @@ public interface JsonMatcher<T extends JsonValue> extends Predicate<JsonValue>
 			return (JsonMatcher<T>) FALSE;
 		} else if (value.equals(JsonValue.NULL)) {
 			return (JsonMatcher<T>) NULL;
+		} else if (value.equals(JsonValue.EMPTY_JSON_ARRAY)) {
+			return (JsonMatcher<T>) EMPTY_ARRAY;
+		} else if (value.equals(JsonValue.EMPTY_JSON_OBJECT)) {
+			return (JsonMatcher<T>) EMPTY_OBJECT;
 		} else {
 			return new ValueMatcher<>(value);
 		}
@@ -231,6 +235,12 @@ public interface JsonMatcher<T extends JsonValue> extends Predicate<JsonValue>
 
 	/** Flyweight matcher for {@link JsonValue#NULL}. */
 	JsonMatcher<JsonValue> NULL = new ValueMatcher<>(JsonValue.NULL);
+
+	/** Flyweight matcher for empty array. */
+	JsonMatcher<JsonArray> EMPTY_ARRAY = new ValueMatcher<>(JsonValue.EMPTY_JSON_ARRAY);
+
+	/** Flyweight matcher for empty object. */
+	JsonMatcher<JsonObject> EMPTY_OBJECT = new ValueMatcher<>(JsonValue.EMPTY_JSON_OBJECT);
 
 	/** Flyweight matcher for any JSON value. */
 	JsonMatcher<JsonValue> ANY_VALUE = new AnyMatcher<>(JsonValue.class, "(any value)");

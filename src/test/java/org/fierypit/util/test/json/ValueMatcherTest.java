@@ -99,6 +99,8 @@ class ValueMatcherTest
 		assertSame(JsonMatcher.TRUE, JsonMatcher.value(JsonValue.TRUE));
 		assertSame(JsonMatcher.FALSE, JsonMatcher.value(JsonValue.FALSE));
 		assertSame(JsonMatcher.NULL, JsonMatcher.value(JsonValue.NULL));
+		assertSame(JsonMatcher.EMPTY_ARRAY, JsonMatcher.value(JsonValue.EMPTY_JSON_ARRAY));
+		assertSame(JsonMatcher.EMPTY_OBJECT, JsonMatcher.value(JsonValue.EMPTY_JSON_OBJECT));
 	}
 
 	@Test
@@ -143,21 +145,48 @@ class ValueMatcherTest
 	{
 		assertTrue(JsonMatcher.TRUE.test(JsonValue.TRUE));
 		assertFalse(JsonMatcher.TRUE.test(JsonValue.FALSE));
+		assertFalse(JsonMatcher.TRUE.test(parseJson("[1]")));
 		assertFalse(JsonMatcher.TRUE.test(parseJson("{\"a\":123,\"b\":true}")));
 		assertFalse(JsonMatcher.TRUE.test(JsonValue.NULL));
+		assertFalse(JsonMatcher.TRUE.test(parseJson("[]")));
+		assertFalse(JsonMatcher.TRUE.test(parseJson("{}")));
 		assertEquals("true", JsonMatcher.TRUE.toString());
 
 		assertTrue(JsonMatcher.FALSE.test(JsonValue.FALSE));
 		assertFalse(JsonMatcher.FALSE.test(JsonValue.TRUE));
+		assertFalse(JsonMatcher.FALSE.test(parseJson("[1]")));
 		assertFalse(JsonMatcher.FALSE.test(parseJson("{\"a\":123,\"b\":true}")));
 		assertFalse(JsonMatcher.FALSE.test(JsonValue.NULL));
+		assertFalse(JsonMatcher.FALSE.test(parseJson("[]")));
+		assertFalse(JsonMatcher.FALSE.test(parseJson("{}")));
 		assertEquals("false", JsonMatcher.FALSE.toString());
 
 		assertTrue(JsonMatcher.NULL.test(JsonValue.NULL));
 		assertFalse(JsonMatcher.NULL.test(Json.createValue(123)));
+		assertFalse(JsonMatcher.NULL.test(parseJson("[1]")));
 		assertFalse(JsonMatcher.NULL.test(parseJson("{\"a\":123,\"b\":true}")));
 		assertFalse(JsonMatcher.NULL.test(Json.createValue("test")));
+		assertFalse(JsonMatcher.NULL.test(parseJson("[]")));
+		assertFalse(JsonMatcher.NULL.test(parseJson("{}")));
 		assertEquals("null", JsonMatcher.NULL.toString());
+
+		assertTrue(JsonMatcher.EMPTY_ARRAY.test(parseJson("[]")));
+		assertFalse(JsonMatcher.EMPTY_ARRAY.test(JsonValue.NULL));
+		assertFalse(JsonMatcher.EMPTY_ARRAY.test(Json.createValue(123)));
+		assertFalse(JsonMatcher.EMPTY_ARRAY.test(parseJson("[1]")));
+		assertFalse(JsonMatcher.EMPTY_ARRAY.test(parseJson("{\"a\":123,\"b\":true}")));
+		assertFalse(JsonMatcher.EMPTY_ARRAY.test(Json.createValue("test")));
+		assertFalse(JsonMatcher.EMPTY_ARRAY.test(parseJson("{}")));
+		assertEquals("[]", JsonMatcher.EMPTY_ARRAY.toString());
+
+		assertTrue(JsonMatcher.EMPTY_OBJECT.test(parseJson("{}")));
+		assertFalse(JsonMatcher.EMPTY_OBJECT.test(JsonValue.NULL));
+		assertFalse(JsonMatcher.EMPTY_OBJECT.test(Json.createValue(123)));
+		assertFalse(JsonMatcher.EMPTY_OBJECT.test(parseJson("[1]")));
+		assertFalse(JsonMatcher.EMPTY_OBJECT.test(parseJson("{\"a\":123,\"b\":true}")));
+		assertFalse(JsonMatcher.EMPTY_OBJECT.test(Json.createValue("test")));
+		assertFalse(JsonMatcher.EMPTY_OBJECT.test(parseJson("[]")));
+		assertEquals("{}", JsonMatcher.EMPTY_OBJECT.toString());
 	}
 
 	@Test
